@@ -1,0 +1,6 @@
+{
+  "name": "StudyQuest",
+  "description": "A gamified personal study tracker with AI-generated study guides, task suggestions, target planning, and daily email reminders.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,154 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Reusable Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Entity validation helpers
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'displayName', 'totalCoins', 'streak'])
+        && data.keys().size() <= 12
+        && data.uid == request.auth.uid
+        && data.displayName is string
+        && data.displayName.size() >= 1
+        && data.displayName.size() <= 64
+        && data.totalCoins is int
+        && data.streak is int;
+    }
+
+    function isValidTask(data) {
+      return data.keys().hasAll(['id', 'userId', 'name', 'subject', 'coins', 'completed', 'createdAt'])
+        && data.keys().size() <= 10
+        && data.userId == request.auth.uid
+        && data.id is string
+        && data.name is string
+        && data.name.size() >= 1
+        && data.name.size() <= 200
+        && data.subject is string
+        && data.subject.size() <= 50
+        && data.coins is int
+        && data.coins >= 0
+        && data.coins <= 1000
+        && data.completed is bool;
+    }
+
+    function isValidTarget(data) {
+      return data.keys().hasAll(['id', 'userId', 'title', 'dueDate', 'progress', 'createdAt'])
+        && data.keys().size() <= 8
+        && data.userId == request.auth.uid
+        && data.id is string
+        && data.title is string
+        && data.title.size() >= 1
+        && data.title.size() <= 200
+        && data.dueDate is string
+        && data.dueDate.size() == 10
+        && data.progress is int
+        && data.progress >= 0
+        && data.progress <= 100;
+    }
+
+    function isValidStudyGuide(data) {
+      return data.keys().hasAll(['id', 'userId', 'subject', 'content', 'lastUpdated'])
+        && data.keys().size() <= 7
+        && data.userId == request.auth.uid
+        && data.id is string
+        && data.subject is string
+        && data.subject.size() >= 1
+        && data.subject.size() <= 50
+        && data.content is string
+        && data.content.size() <= 50000;
+    }
+
+    function isValidCoinHistory(data) {
+      return data.keys().hasAll(['id', 'userId', 'taskName', 'coinsEarned', 'timestamp'])
+        && data.keys().size() <= 6
+        && data.userId == request.auth.uid
+        && data.id is string
+        && data.taskName is string
+        && data.taskName.size() <= 200
+        && data.coinsEarned is int;
+    }
+
+    function isValidEmailLog(data) {
+      return data.keys().hasAll(['id', 'userId', 'recipientEmail', 'subject', 'body', 'sentAt', 'status'])
+        && data.keys().size() <= 8
+        && data.userId == request.auth.uid
+        && data.id is string
+        && data.recipientEmail is string
+        && data.subject is string
+        && data.body is string
+        && data.sentAt is string
+        && data.status is string;
+    }
+
+    // Matches for Collections
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUserProfile(incoming());
+      allow update: if isOwner(userId) && isValidUserProfile(incoming());
+      allow delete: if isOwner(userId);
+    }
+
+    match /tasks/{taskId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(taskId) && incoming().userId == request.auth.uid && isValidTask(incoming());
+      allow update: if isSignedIn() && isValidId(taskId) && existing().userId == request.auth.uid && incoming().userId == request.auth.uid && isValidTask(incoming());
+      allow delete: if isSignedIn() && isValidId(taskId) && existing().userId == request.auth.uid;
+    }
+
+    match /targets/{targetId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(targetId) && incoming().userId == request.auth.uid && isValidTarget(incoming());
+      allow update: if isSignedIn() && isValidId(targetId) && existing().userId == request.auth.uid && incoming().userId == request.auth.uid && isValidTarget(incoming());
+      allow delete: if isSignedIn() && isValidId(targetId) && existing().userId == request.auth.uid;
+    }
+
+    match /studyGuides/{guideId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(guideId) && incoming().userId == request.auth.uid && isValidStudyGuide(incoming());
+      allow update: if isSignedIn() && isValidId(guideId) && existing().userId == request.auth.uid && incoming().userId == request.auth.uid && isValidStudyGuide(incoming());
+      allow delete: if isSignedIn() && isValidId(guideId) && existing().userId == request.auth.uid;
+    }
+
+    match /coinHistory/{historyId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(historyId) && incoming().userId == request.auth.uid && isValidCoinHistory(incoming());
+      allow update, delete: if false; // Coin history logs are read-only and immutable once created
+    }
+
+    match /emailLogs/{logId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(logId) && incoming().userId == request.auth.uid && isValidEmailLog(incoming());
+      allow update, delete: if false; // Email remind logs are write-once
+    }
+  }
+}

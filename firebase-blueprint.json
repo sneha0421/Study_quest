@@ -1,0 +1,246 @@
+{
+  "entities": {
+    "userProfile": {
+      "title": "UserProfile",
+      "description": "User profile information including stats and preferences",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "User's unique auth ID"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User's display name"
+        },
+        "totalCoins": {
+          "type": "integer",
+          "description": "Total active coins virtual currency"
+        },
+        "streak": {
+          "type": "integer",
+          "description": "Current learning day streak"
+        },
+        "gmail": {
+          "type": "string",
+          "description": "User's gmail address for daily study reminders"
+        },
+        "reminderTimes": {
+          "type": "array",
+          "description": "List of reminder times configured by the user, e.g. ['07:00 AM', '09:00 PM']"
+        },
+        "remindersEnabled": {
+          "type": "boolean",
+          "description": "Whether daily email reminders are enabled"
+        },
+        "recentInsights": {
+          "type": "string",
+          "description": "AI generated strengths and weaknesses text"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when profile was created"
+        }
+      },
+      "required": ["uid", "displayName", "totalCoins", "streak"]
+    },
+    "task": {
+      "title": "Task",
+      "description": "A single study task that user can complete to earn coins",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique task ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner of the task"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name or description of study task"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject tag (e.g. Physics, Chemistry)"
+        },
+        "coins": {
+          "type": "integer",
+          "description": "Coin payout for completing this task"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether task is completed"
+        },
+        "completedAt": {
+          "type": "string",
+          "description": "ISO timestamp when the task was marked completed"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when task was created"
+        }
+      },
+      "required": ["id", "userId", "name", "subject", "coins", "completed", "createdAt"]
+    },
+    "target": {
+      "title": "Target",
+      "description": "An academic target or target goal",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique target ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner of this target"
+        },
+        "title": {
+          "type": "string",
+          "description": "Goal description e.g. finish assignments"
+        },
+        "dueDate": {
+          "type": "string",
+          "description": "Due date formatted as YYYY-MM-DD"
+        },
+        "progress": {
+          "type": "integer",
+          "description": "Target completion progress percentage (0 - 100)"
+        },
+        "weekBreakdown": {
+          "type": "array",
+          "description": "AI suggested week by week breakdown tasks structure"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when target was created"
+        }
+      },
+      "required": ["id", "userId", "title", "dueDate", "progress", "createdAt"]
+    },
+    "studyGuide": {
+      "title": "StudyGuide",
+      "description": "Study guide template and content for subjects",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Guide ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner of study guide"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Associated subject"
+        },
+        "content": {
+          "type": "string",
+          "description": "Markdown text or formatted study instructions"
+        },
+        "icon": {
+          "type": "string",
+          "description": "Lucide icon name to display beside subject"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["id", "userId", "subject", "content", "lastUpdated"]
+    },
+    "coinHistory": {
+      "title": "CoinHistory",
+      "description": "Log of coins earned by the user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Log entry ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Id of the earner"
+        },
+        "taskName": {
+          "type": "string",
+          "description": "Name of task completed"
+        },
+        "coinsEarned": {
+          "type": "integer",
+          "description": "Number of coins added"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "ISO timestamp of payout"
+        }
+      },
+      "required": ["id", "userId", "taskName", "coinsEarned", "timestamp"]
+    },
+    "emailLog": {
+      "title": "EmailLog",
+      "description": "Record of simulated daily study reminders sent to user's Gmail",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Log ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Recipient user ID"
+        },
+        "recipientEmail": {
+          "type": "string",
+          "description": "Email address sent to"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Email subject"
+        },
+        "body": {
+          "type": "string",
+          "description": "Markdown body content written by Gemini"
+        },
+        "sentAt": {
+          "type": "string",
+          "description": "ISO timestamp of transmission"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of transmission (e.g. Sent, Pending, Simulated)"
+        }
+      },
+      "required": ["id", "userId", "recipientEmail", "subject", "body", "sentAt", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "userProfile",
+      "description": "Individual user profiles and settings"
+    },
+    "/tasks/{taskId}": {
+      "schema": "task",
+      "description": "Study tracker tasks for student gamification"
+    },
+    "/targets/{targetId}": {
+      "schema": "target",
+      "description": "Academic goals and week-by-week action plans"
+    },
+    "/studyGuides/{guideId}": {
+      "schema": "studyGuide",
+      "description": "Student subject guides that can be AI-generated and edited"
+    },
+    "/coinHistory/{historyId}": {
+      "schema": "coinHistory",
+      "description": "History of gamified coin additions"
+    },
+    "/emailLogs/{logId}": {
+      "schema": "emailLog",
+      "description": "History of automatic Gemini-drafted email checklists sent to student"
+    }
+  }
+}
