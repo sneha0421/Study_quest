@@ -1,20 +1,22 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# StudyQuest 📚
 
-# Run and deploy your AI Studio app
+A gamified study tracker built with React, Firebase & Gemini AI.
 
-This contains everything you need to run your app locally.
+## Features
+- 🎯 Task Manager with coin rewards
+- 🏆 Badges & leaderboard
+- 📊 Dashboard with progress tracking
+- 🤖 AI-powered study guide
+- 🔔 Daily Gmail reminders
 
-View your app in AI Studio: https://ai.studio/apps/5f6ffe34-57ce-4c2b-b883-398e281e26b4
+## Tech Stack
+- React + TypeScript + Vite
+- Firebase (Auth + Firestore)
+- Google Gemini API
+- Tailwind CSS
 
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Setup
+1. Clone the repo
+2. Run `npm install`
+3. Add `.env` file with your keys
+4. Run `npm run dev`
