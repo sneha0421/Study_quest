@@ -83,7 +83,7 @@ export function Layout() {
         <main className="max-w-4xl mx-auto px-6 py-12 md:py-20 text-center space-y-8 flex-1 flex flex-col justify-center z-10">
           
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[11px] font-semibold text-blue-400 mx-auto font-mono uppercase tracking-wider animate-bounce">
-            <Sparkles className="w-3 h-3 text-blue-400" /> Powered by Google Gemini AI
+            <Sparkles className="w-3 h-3 text-blue-400" /> Enjoy a Gamified Learning Experience! <Sparkles className="w-3 h-3 text-blue-400" />
           </div>
 
           <div className="space-y-4">
