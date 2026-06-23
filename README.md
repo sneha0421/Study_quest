@@ -16,28 +16,24 @@ React + TypeScript + Vite on the frontend, Firebase (Auth + Firestore) on the ba
 
 ## Running it locally
 
-```bash
+\`\`\`bash
 git clone https://github.com/sneha0421/Study_quest.git
 cd Study_quest
 npm install
+\`\`\`
 
+You'll need your own Firebase project and a Gemini API key. Copy `.env.example` to `.env` and drop your keys in:
+
+\`\`\`
 VITE_FIREBASE_API_KEY=your_key
-
 VITE_GEMINI_API_KEY=your_key
+\`\`\`
 
 Then run:
 
-```bash
+\`\`\`bash
 npm run dev
-```
-
+\`\`\`
 ## What's next
 
 I'm planning to add group study rooms, friend-based leaderboards, and streak bonuses next.
-
-## License
-
-MIT
-```
-
-You'll need your own Firebase project and a Gemini API key. Copy `.env.example` to `.env` and drop your keys in:
