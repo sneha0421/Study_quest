@@ -137,7 +137,7 @@ export function Layout() {
         </main>
 
         <footer className="py-6 text-center border-t border-white/10 text-xs text-gray-650 font-mono z-10">
-          StudyQuest Study Portal &bull; Designed with Space Grotesk and JetBrains Mono
+          StudyQuest — Gamify your learning
         </footer>
 
       </div>
