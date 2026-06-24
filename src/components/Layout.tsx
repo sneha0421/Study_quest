@@ -137,7 +137,6 @@ export function Layout() {
         </main>
 
         <footer className="py-6 text-center border-t border-white/10 text-xs text-gray-650 font-mono z-10">
-          StudyQuest — Gamify your learning with Buddy
         </footer>
 
       </div>
