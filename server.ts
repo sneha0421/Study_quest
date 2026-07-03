@@ -19,6 +19,7 @@ const PORT = 3000;
 
 // Initialize Google Gemini API
 const apiKey = process.env.GEMINI_API_KEY;
+console.log("Key loaded:", apiKey ? apiKey.slice(0, 8) + "..." : "MISSING");
 if (!apiKey) {
   console.warn("WARNING: GEMINI_API_KEY environment variable is missing.");
 }
