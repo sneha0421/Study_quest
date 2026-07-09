@@ -99,7 +99,7 @@ app.post('/api/gemini/suggest-tasks', async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -143,7 +143,7 @@ app.post('/api/gemini/break-target', async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -180,7 +180,7 @@ app.post('/api/gemini/generate-guide', async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -225,7 +225,7 @@ app.post('/api/reminders/generate-email', async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
