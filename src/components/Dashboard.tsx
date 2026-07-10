@@ -128,15 +128,15 @@ export function Dashboard({ state }: DashboardProps) {
     const targetProgressList = targets.map(t => ({ title: t.title, progress: t.progress, dueDate: t.dueDate }));
 
     try {
-      const res = await fetch('/api/gemini/insights', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          taskSummary: subjectWiseCompleted,
-          streak: currentStreak,
-          targetProgress: targetProgressList
-        })
-      });
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/gemini/insights`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    taskSummary: subjectWiseCompleted,
+    streak: currentStreak,
+    targetProgress: targetProgressList
+    })
+  });
 
       if (!res.ok) {
         throw new Error('Server returned error while analysis');

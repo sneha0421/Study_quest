@@ -74,12 +74,12 @@ export function StudyGuide({ state }: StudyGuideProps) {
     setErrorText('');
 
     try {
-      const res = await fetch('/api/gemini/generate-guide', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          subject,
-          examType: examType || 'General Examination'
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/gemini/generate-guide`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    subject,
+    examType: examType || 'General Examination'
         })
       });
 

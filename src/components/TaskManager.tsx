@@ -61,7 +61,7 @@ export function TaskManager({ state }: TaskManagerProps) {
     const activeTargets = targets.filter(t => t.progress < 100).map(t => t.title);
 
     try {
-      const res = await fetch('/api/gemini/suggest-tasks', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/some-route`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

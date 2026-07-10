@@ -99,7 +99,7 @@ export function Rewards({ state }: RewardsProps) {
     const emailTo = profile?.gmail || 'kesarwanisneha26@gmail.com';
 
     try {
-      const res = await fetch('/api/reminders/generate-email', {
+     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/some-route`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

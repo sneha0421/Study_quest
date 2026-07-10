@@ -60,7 +60,7 @@ export function TargetTracker({ state }: TargetTrackerProps) {
     setBreakErrors(prev => ({ ...prev, [target.id]: '' }));
 
     try {
-      const res = await fetch('/api/gemini/break-target', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/some-route`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -8,14 +8,16 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
+import cors from 'cors';
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // Initialize Google Gemini API
 const apiKey = process.env.GEMINI_API_KEY;
